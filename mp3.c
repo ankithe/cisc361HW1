@@ -197,6 +197,7 @@ void delete (mp3_t **first, mp3_t **tail)
     char *artistDel;
     mp3_t *tmp = NULL;
     tmp = *first;
+    mp3_t* delete = NULL;
     getchar();
     printf("Enter the Name of the Artist you would like to delete: ");
     if (fgets(buffer, BUFFERSIZE, stdin) != NULL)
@@ -213,7 +214,9 @@ void delete (mp3_t **first, mp3_t **tail)
     {
         if (strcmp(tmp->artistName, artistDel) == 0)
         {
-            deleteMP3(tmp, first, tail);
+            delete = tmp;
+            tmp = tmp->next;
+            deleteMP3(delete, first, tail);
         }else{
             tmp = tmp->next;
         }
