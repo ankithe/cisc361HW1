@@ -255,7 +255,7 @@ void deleteMP3(mp3_t *deleteArtist, mp3_t **tmpFirst, mp3_t** tail)
         deleteArtist->prev->next = deleteArtist->next;
     }
 
-    free(deleteArtis->artistName);
+    free(deleteArtist->artistName);
     free(deleteArtist->songTitle);
     free(deleteArtist);
 }
