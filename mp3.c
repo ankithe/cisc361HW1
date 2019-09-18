@@ -15,8 +15,16 @@ typedef struct mp3
     struct mp3 *prev;
 } mp3_t;
 
-struct mp3 *createMp3()
+int main()
 {
+    mainMenu();
+
+return 0;
+}
+
+
+struct mp3 *createMp3()
+{ 
     char buffer[BUFFERSIZE];
     int len;
     mp3_t *mp3 = NULL;
@@ -57,12 +65,6 @@ struct mp3 *createMp3()
     return mp3;
 }
 
-int main()
-{
-    mainMenu();
-
-return 0;
-}
 
 void mainMenu(){
     struct mp3* headMp3 = NULL;
@@ -113,7 +115,6 @@ void mainMenu(){
     } while (menu_option != 'e');
 
     freeList(headMp3);
-    printListForward(headMp3);
 }
 
 void addMp3(mp3_t **head_ref, mp3_t **tail_ref)
@@ -204,11 +205,9 @@ void delete (mp3_t **first, mp3_t **tail)
     if (fgets(buffer, BUFFERSIZE, stdin) != NULL)
     {
         len = (int)strlen(buffer);
-        printf("length [%d] of string %s", len, buffer);
         buffer[len - 1] = '\0';
         artistDel = (char *)malloc(len);
         strcpy(artistDel, buffer);
-        printf("Name is [%s]...\n", artistDel);
     }
 
     while (tmp != NULL)
@@ -228,10 +227,6 @@ void delete (mp3_t **first, mp3_t **tail)
 
 void deleteMP3(mp3_t *deleteArtist, mp3_t **tmpFirst, mp3_t** tail)
 {
-    mp3_t *tmp = NULL;
-    tmp= deleteArtist;
-
-
     if (*tmpFirst == NULL)
     {
         return;
