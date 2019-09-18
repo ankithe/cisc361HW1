@@ -1,3 +1,9 @@
+/*
+
+Mp3 Linked List Program written by Ankith Ede
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +19,7 @@ typedef struct mp3
     int runTime;
     struct mp3 *next;
     struct mp3 *prev;
-} mp3_t;
+}mp3_t;
 
 int main()
 {
@@ -22,12 +28,14 @@ int main()
 return 0;
 }
 
-
+/**
+ * Allocates memory for an mp3 struct and character arrays for the artistName and songTitle
+**/
 struct mp3 *createMp3()
 { 
     char buffer[BUFFERSIZE];
     int len;
-    mp3_t *mp3 = NULL;
+    struct mp3 *mp3 = NULL;
     printf("Enter a name: ");
     getchar();
 
@@ -65,7 +73,9 @@ struct mp3 *createMp3()
     return mp3;
 }
 
-
+/**
+ * called in main to run the mp3 program 
+**/
 void mainMenu(){
     struct mp3* headMp3 = NULL;
     struct mp3* tailMp3 = NULL;
@@ -117,6 +127,10 @@ void mainMenu(){
     freeList(headMp3);
 }
 
+/**
+ * pass in the address to a pointer for the head and tail references of the linked list.
+ * allocates memory for and mp3 object and charachter array for artistTitle and songTitle
+**/
 void addMp3(mp3_t **head_ref, mp3_t **tail_ref)
 {
     mp3_t *mp3 = NULL;
@@ -136,6 +150,9 @@ void addMp3(mp3_t **head_ref, mp3_t **tail_ref)
     }
 }
 
+/**
+ * pass in a pointer for the head of the linked list.
+**/
 void printListForward(struct mp3 *head)
 {
     if (head == NULL)
@@ -156,6 +173,9 @@ void printListForward(struct mp3 *head)
     }
 }
 
+/**
+ * pass in a pointer for the tail of the linked list.
+**/
 void printListReverse(struct mp3 *tail_ref)
 {
     if (tail_ref == NULL)
@@ -177,6 +197,10 @@ void printListReverse(struct mp3 *tail_ref)
     }
 }
 
+/**
+ * pass in a pointer for the head of the linked list.
+ * free's all allocated memory for the mp3's in a linked list.
+**/
 void freeList(struct mp3 *head)
 {
     struct mp3 *tmp;
@@ -191,6 +215,10 @@ void freeList(struct mp3 *head)
     }
 }
 
+/**
+ * pass in the address of a pointer for the head and tail of the linked list.
+ * free's all allocated memory for the mp3 based on the user's input for artist name.
+**/
 void delete (mp3_t **first, mp3_t **tail)
 {
     
@@ -224,6 +252,12 @@ void delete (mp3_t **first, mp3_t **tail)
 
     free(artistDel);
 }
+
+/**
+ * pass in the address of a pointer for the head and tail of the linked list. 
+ * Also pass in a pointer for the mp3 struct that has to be deleted.
+ * free's all allocated memory for the mp3 that is passed in as the first parameter.
+**/
 
 void deleteMP3(mp3_t *deleteArtist, mp3_t **tmpFirst, mp3_t** tail)
 {
