@@ -113,6 +113,7 @@ void mainMenu(){
     } while (menu_option != 'e');
 
     freeList(headMp3);
+    printListForward(headMp3);
 }
 
 void addMp3(mp3_t **head_ref, mp3_t **tail_ref)
@@ -228,6 +229,9 @@ void delete (mp3_t **first, mp3_t **tail)
 void deleteMP3(mp3_t *deleteArtist, mp3_t **tmpFirst, mp3_t** tail)
 {
     mp3_t *tmp = NULL;
+    tmp= deleteArtist;
+
+
     if (*tmpFirst == NULL)
     {
         return;
@@ -251,7 +255,7 @@ void deleteMP3(mp3_t *deleteArtist, mp3_t **tmpFirst, mp3_t** tail)
         deleteArtist->prev->next = deleteArtist->next;
     }
 
-    free(deleteArtist->artistName);
-    free(deleteArtist->songTitle);
-    free(deleteArtist);
+    free(tmp->artistName);
+    free(tmp->songTitle);
+    free(tmp);
 }
