@@ -88,7 +88,7 @@ int sh( int argc, char **argv, char **envp )
   return 0;
 } /* sh() */
 
-
+void freeList(struct pathelement* head)
 {
    struct pathelement* tmp;
    while (head != NULL)
