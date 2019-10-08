@@ -80,10 +80,24 @@ int sh( int argc, char **argv, char **envp )
     free(pwd);
     free(owd);
     free(pathlist->element);
-    free(pathlist->next);
-    free(pathlist);
+    freeList(pathlist);
+
+
+    // free(pathlist->next);
+    // free(pathlist);
   return 0;
 } /* sh() */
+
+
+{
+   struct pathelement* tmp;
+   while (head != NULL)
+    {
+       tmp = head;
+       head = head->next;
+       free(tmp);
+    }
+}
 
 char *which(char *command, struct pathelement *pathlist )
 {
