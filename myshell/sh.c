@@ -52,6 +52,9 @@ int sh( int argc, char **argv, char **envp )
     if(strcmp(&cmd[0],"exit")==0){
       go = 0;
     }
+    // if(strcmp(&cmd[0],"hi")){
+    //   printf("hi worked");
+    // }
     // else{
     //   char *ab = checkpath(cmd[0]);
     //   if(ab == NULL){
@@ -103,12 +106,16 @@ char *which(char *command, struct pathelement *pathlist )
 {
    /* loop through pathlist until finding command and return it.  Return
    NULL when not found. */
+   return NULL;
 
 } /* which() */
 
 char *where(char *command, struct pathelement *pathlist )
 {
   /* similarly loop through finding all locations of command */
+
+     return NULL;
+
 } /* where() */
 
 void list ( char *dir )
