@@ -24,4 +24,8 @@ main()
     }
     p = p->next;
   }
+
+  free(p->element);
+  free(p->next);
+  free(p);
 }
