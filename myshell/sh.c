@@ -70,6 +70,10 @@ int sh( int argc, char **argv, char **envp )
     //   }
     ///}
 
+
+ 
+  }
+
     free(args);
     free(prompt);
     free(commandline);
@@ -78,9 +82,6 @@ int sh( int argc, char **argv, char **envp )
     free(pathlist->element);
     free(pathlist->next);
     free(pathlist);
- 
-  }
-
   return 0;
 } /* sh() */
 
