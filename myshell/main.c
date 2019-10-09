@@ -8,8 +8,6 @@ int main( int argc, char **argv, char **envp )
 {
   /* put signal set up stuff here */
 
-  printf("hello world");
-
   return sh(argc, argv, envp);
 }
 

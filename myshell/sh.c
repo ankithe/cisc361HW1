@@ -43,18 +43,27 @@ int sh( int argc, char **argv, char **envp )
 
   while ( go )
   {
-    char *cmd;
       /* print your prompt */
-    printf("%s [%s]" , prompt,pwd);
+    printf("[%s]%s",pwd,prompt);
     /* get command line and process */
-    fgets(commandline,BUFSIZ,stdin);
-    cmd = strtok(commandline, " ");
-    if(strcmp(&cmd[0],"exit")==0){
+    arg = fgets(commandline,BUFSIZ,stdin);
+    int argLen = strlen(arg);
+    arg[argLen-1]=0;
+    args = stringToArray(arg);
+    i=0;
+    argsct=0;
+    while(args[i]!=NULL){
+      argsct++;
+      i++;
+    }
+    if((strcmp(args[0],"exit")==0) && argsct==1){
       go = 0;
     }
-    // if(strcmp(&cmd[0],"hi")){
-    //   printf("hi worked");
-    // }
+    else if(strcmp(&arg[0],"which") ==0){
+      which(command,pathlist );
+    }else if(strcmp(&arg[0],"where") ==0){
+      where(command,pathlist );
+    }
     // else{
     //   char *ab = checkpath(cmd[0]);
     //   if(ab == NULL){
@@ -72,28 +81,22 @@ int sh( int argc, char **argv, char **envp )
     //     }
     //   }
     ///}
-
-
- 
+    freeArgs(args);
   }
 
-    free(args);
-    free(prompt);
-    free(commandline);
-    free(pwd);
-    free(owd);
-    free(pathlist->element);
-    freeList(pathlist);
-
-
-    // free(pathlist->next);
-    // free(pathlist);
+  free(args);
+  free(prompt);
+  free(commandline);
+  free(pwd);
+  free(owd);
+  free(pathlist->element);
+  freeList(pathlist);
   return 0;
 } /* sh() */
 
 void freeList(struct pathelement* head)
 {
-   struct pathelement* tmp;
+   struct pathelement* tmp = NULL;
    while (head != NULL)
     {
        tmp = head;
@@ -106,6 +109,7 @@ char *which(char *command, struct pathelement *pathlist )
 {
    /* loop through pathlist until finding command and return it.  Return
    NULL when not found. */
+   printf("you called which");
    return NULL;
 
 } /* which() */
@@ -113,7 +117,7 @@ char *which(char *command, struct pathelement *pathlist )
 char *where(char *command, struct pathelement *pathlist )
 {
   /* similarly loop through finding all locations of command */
-
+    printf("you called where");
      return NULL;
 
 } /* where() */
@@ -124,26 +128,34 @@ void list ( char *dir )
   the directory passed */
 }
 
-// char* stringToArray(char* input){
-//   char buf[BUFFERSIZE];
-//   strcpy(buf,input);
-//   char* t= strtok(buf, " ");
-//   int cnt = 1;
-//   while(strtok(NULL, " ")){
-//     cnt++;
-//   }
-//   char** argv = malloc((cnt+1)*sizeof(char*));
-//   argv[cnt]= 0;
-//   cnt = 0;
-//   strcpy(buf,input);
-//   t = strtok(buf, " " );
+void freeArgs(char **array){
+  int i = 0;
+  while(array[i] != NULL){
+    free(array[i]);
+    i++;
+  }
+}
 
-//   while(t){
-//     int len = strlen(t);
-//     argv[cnt] = (char) malloc(len +1)*sizeof(char);
-//     strcpy(argv[cnt], t);
-//     cnt++;
-//     t = strtok(NULL, " ");
-//   }
-// return argv;
-// }
+char **stringToArray(char *input){
+  char buf[BUFSIZ];
+  strcpy(buf,input);
+  char *t = strtok(buf," ");
+  int count=1;
+  while(strtok(NULL," ")){
+    count++;
+  }
+  char **array = malloc((count+1)*sizeof(char*));
+  array[count]= 0;
+
+  count = 0;
+  strcpy(buf,input);
+  t=strtok(buf," ");
+  while(t){
+    int len = strlen(t);
+    array[count] = (char *) malloc((len+1)*sizeof(char));
+    strcpy(array[count],t);
+    count++;
+    t=strtok(NULL," ");
+  }
+  return array;
+}

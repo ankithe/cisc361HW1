@@ -9,7 +9,7 @@
 
 struct pathelement *get_path()
 {
-  /* path is a copy of the PATH and p is a temp pointer */
+    /* path is a copy of the PATH and p is a temp pointer */
   char *path, *p;
 
   /* tmp is a temp point used to create a linked list and pathlist is a
