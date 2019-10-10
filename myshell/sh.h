@@ -10,6 +10,9 @@ void printenv(char **envp);
 void freeList(struct pathelement* head);
 char **stringToArray(char *input);
 void freeArgs(char **array);
+int cd(char *directory);
+void mykill(int pid, int signal);
+void list ( char *dir );
 
 #define PROMPTMAX 32
 #define MAXARGS 10
