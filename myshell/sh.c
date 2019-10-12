@@ -45,10 +45,20 @@ int sh( int argc, char **argv, char **envp )
 
   while ( go )
   {
+    pathlist = get_path();
       /* print your prompt */
     printf("[%s]%s",pwd,prompt);
     /* get command line and process */
     arg = fgets(commandline,BUFSIZ,stdin);
+    if (arg == NULL){ //cntrl D
+      printf("^D\n");
+    }
+    else if((strcmp(arg, "\n") == 0)){ //enter key
+      free(pathlist->element);
+      freeList(pathlist);
+      continue;
+    }
+    else{
     int argLen = strlen(arg);
     arg[argLen-1]=0;
     args = stringToArray(arg);
@@ -57,10 +67,6 @@ int sh( int argc, char **argv, char **envp )
     while(args[i]!=NULL){
       argsct++;
       i++;
-    }
-
-    if (arg == NULL){ //cntrl D
-      printf("^D\n");
     }
 
     if((strcmp(args[0],"exit")==0) && argsct==1){
@@ -250,6 +256,7 @@ int sh( int argc, char **argv, char **envp )
     //   }
     ///}
     freeArgs(args);
+  }
   }
 
   free(args);
