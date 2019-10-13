@@ -6,7 +6,7 @@ int sh( int argc, char **argv, char **envp);
 char *which(char *command, struct pathelement *pathlist);
 char *where(char *command, struct pathelement *pathlist);
 void list ( char *dir );
-void printenv(char **envp);
+void printenv(int num_args, char **envp, char **args);
 void freeList(struct pathelement* head);
 char **stringToArray(char *input);
 void freeArgs(char **array);
