@@ -5,14 +5,14 @@ int pid;
 int sh( int argc, char **argv, char **envp);
 char *which(char *command, struct pathelement *pathlist);
 char *where(char *command, struct pathelement *pathlist);
-void list ( char *dir );
-void printenv(int num_args, char **envp, char **args);
-void freeList(struct pathelement* head);
+void ls(char *directory);
+void listFree(struct pathelement *first);
+void arrayFree(char **array);
 char **stringToArray(char *input);
-void freeArgs(char **array);
 int cd(char *directory);
-void mykill(int pid, int signal);
-void list ( char *dir );
+void printPid();
+void printenv(int argsct, char **envp, char **args);
+
 
 #define PROMPTMAX 32
 #define MAXARGS 10
