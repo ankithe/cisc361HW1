@@ -154,7 +154,7 @@ int sh(int argc, char **argv, char **envp)
       }
 
       //list
-      else if (strcmp(args[0], "ls") == 0 || strcmp(args[0], "list") == 0)
+      else if (strcmp(args[0], "list") == 0)
       {
         printf("Executing built-in list\n");
         if (argsct == 1)
@@ -334,8 +334,8 @@ int sh(int argc, char **argv, char **envp)
           free(prompt);
           free(pwd);
           free(owd);
-          exit(pid);
           free(cmd_path);
+          exit(pid);
         }
         else if (pid != 0)
         {
