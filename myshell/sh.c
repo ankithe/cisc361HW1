@@ -51,16 +51,12 @@ int sh(int argc, char **argv, char **envp)
     { //cntrl D
       printf("^D\n");
       free(pathlist->element);
-      listFree(pathlist);
-      free(arg);
-      continue;
+      freeList(pathlist);
     }
     else if ((strcmp(arg, "\n") == 0))
     {
       free(pathlist->element);
-      listFree(pathlist);
-      free(arg);
-      continue;
+      freeList(pathlist);
     }
     else
     {
@@ -194,7 +190,7 @@ int sh(int argc, char **argv, char **envp)
             arrayFree(args);
             free(args);
             free(pathlist->element);
-            listFree(pathlist);
+            freeList(pathlist);
             free(arg);
             free(prompt);
             free(pwd);
@@ -325,11 +321,11 @@ int sh(int argc, char **argv, char **envp)
 
           execve(cmd_path, args, envp);
           free(ab->element);
-          listFree(ab);
+          freeList(ab);
           arrayFree(args);
           free(args);
           free(pathlist->element);
-          listFree(pathlist);
+          freeList(pathlist);
           free(arg);
           free(prompt);
           free(pwd);
@@ -346,12 +342,12 @@ int sh(int argc, char **argv, char **envp)
           printf("Command not found: %s\n", args[0]);
         }
         free(ab->element);
-        listFree(ab);
+        freeList(ab);
       }
       arrayFree(args);
       free(args);
       free(pathlist->element);
-      listFree(pathlist);
+      freeList(pathlist);
     }
     free(arg);
   }
@@ -484,7 +480,7 @@ int cd(char *directory)
   return 1;
 }
 
-void listFree(struct pathelement *first)
+void freeList(struct pathelement *first)
 {
   struct pathelement *tmp = NULL;
   while (first != NULL)
