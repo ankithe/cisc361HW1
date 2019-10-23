@@ -364,8 +364,6 @@ int sh(int argc, char **argv, char **envp)
               else if(pid != 0){
                 waitpid(pid,NULL,0);
               }
-              free(cmd_path);
-
           }
           else{
                 printf("Command not found: %s\n",args[0]);
