@@ -46,8 +46,8 @@ int sh(int argc, char **argv, char **envp)
     printf("[%s]%s", pwd, prompt);
     /* get command line and process */
     char *arg = calloc(MAX_CANON, sizeof(char));
-    arg = fgets(arg, BUFSIZ, stdin);
-    if (arg == NULL)
+    //arg = fgets(arg, BUFSIZ, stdin);
+    if (fgets(arg, BUFSIZ, stdin) == NULL)
     { //cntrl D
       printf("^D\n");
       free(pathlist->element);
