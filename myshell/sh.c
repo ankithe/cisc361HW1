@@ -313,6 +313,7 @@ int sh(int argc, char **argv, char **envp)
       }
 
       //else for exec 
+      //handles not built in functions
    else{
           char *cmd_path;
           if(args[0][0] == '.' || args[0][0] == '/'){
@@ -387,7 +388,7 @@ int sh(int argc, char **argv, char **envp)
 } /* sh() */
 
 
-// same as the tcsh one 
+// used to locate the executable
 char *which(char *command, struct pathelement *pathlist)
 {
   char *cmd = malloc(64);
