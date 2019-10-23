@@ -265,7 +265,7 @@ int sh(int argc, char **argv, char **envp)
               fprintf(stderr, "fgets error\n");
             size_t p_len = strlen(prompt);
             if (prompt[p_len - 1] == '\n')
-              prompt[p_len - 1] = '\0';
+              prompt[p_len - 1] = ' ';
           }
           else if (argsct == 2)
           {
