@@ -297,53 +297,41 @@ int sh(int argc, char **argv, char **envp)
         printPid();
       }
 
+      //else for exec 
       else
       {
-        struct pathelement *ab = get_path(args[0]);
-        int pid;
-        pid = fork();
+        char *cmd_path = which(args[0],pathlist);
+        int size = strlen(cmd_path);
+        cmd_path[size -1] = '\0';
+        char** tmpArgs = malloc((argsct+1)* sizeof(char*));
 
-        if (pid == 0)
-        {
-          char *cmd_path;
-
-          if (args[0][0] == '/' || args[0][0] == '.')
-          {
-            cmd_path = (char *)malloc((strlen(args[0]) + 1) * sizeof(char));
-            strcpy(cmd_path, args[0]);
+        for(int i = 0; i<= argsct; i++){
+          if(i == argsct){
+            tmpArgs[i] = '\0';
           }
-          else
-          {
-            cmd_path = which(args[0], pathlist);
+          else{
+            tmpArgs[i] = args[i];
           }
+        }
 
-          int access_result = access(cmd_path, F_OK | X_OK);
-
-          execve(cmd_path, args, envp);
-          free(ab->element);
-          freeList(ab);
-          arrayFree(args);
-          free(args);
-          free(pathlist->element);
-          freeList(pathlist);
-          free(arg);
-          free(prompt);
-          free(pwd);
-          free(owd);
-          free(cmd_path);
-          exit(pid);
+        if(cmd_path == NULL){
+          printf("%s: command not found\n", args[0]);
         }
-        else if (pid != 0)
-        {
-          waitpid(pid, NULL, 0);
+        else if(access(cmd_path, X_OK) == 0){
+          printf("Executing %s:\n", args[0]);
+          pid_t pid = fork();
+          if(pid ==0){//child
+            execve(cmd_path, tmpArgs, envp);
+          }else{
+            waitpid(pid,NULL,0);
+          }
         }
-        else
-        {
-          printf("Command not found: %s\n", args[0]);
+        else{
+          printf("cannot access file \n");
         }
-        free(ab->element);
-        freeList(ab);
+        free(cmd_path);
       }
+
       arrayFree(args);
       free(args);
       free(pathlist->element);
