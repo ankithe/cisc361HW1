@@ -187,14 +187,6 @@ int sh(int argc, char **argv, char **envp)
           if (argsct == 2)
           { //no specified signal
             int pid = atoi(args[1]);
-            free(owd);
-            arrayFree(args);
-            free(args);
-            free(pathlist->element);
-            freeList(pathlist);
-            free(arg);
-            free(prompt);
-            free(pwd);
             kill(pid, SIGTERM);
           }
           else
