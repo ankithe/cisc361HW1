@@ -314,7 +314,7 @@ int sh(int argc, char **argv, char **envp)
       //else for exec 
    else{
           char *cmd_path;
-          if(strchr(arg,'.') != NULL || strchr(arg,'/') != NULL){
+          if(strcmp(&args[0][0],".") == 0 || strcmp(&args[0][0],"/") == 0){
             cmd_path = (char *) malloc((strlen(args[0])+1)*sizeof(char));
             strcpy(cmd_path,args[0]);
             pid_t pid;
