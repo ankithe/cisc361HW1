@@ -269,7 +269,7 @@ int sh(int argc, char **argv, char **envp)
           }
           else if (argsct == 2)
           {
-            sprintf(prompt, "%s", args[1]);
+            sprintf(prompt, " %s ", args[1]);
           }
         }
       }
