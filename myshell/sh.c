@@ -314,7 +314,7 @@ int sh(int argc, char **argv, char **envp)
       //else for exec 
    else{
           char *cmd_path;
-          if(strcmp(&args[0][0],".") == 0 || strcmp(&args[0][0],"/") == 0){
+          if(args[0][0] == '.' || args[0][0] == '/'){
             cmd_path = (char *) malloc((strlen(args[0])+1)*sizeof(char));
             strcpy(cmd_path,args[0]);
             pid_t pid;
@@ -336,9 +336,9 @@ int sh(int argc, char **argv, char **envp)
             else if(pid != 0){
               waitpid(pid,NULL,0);
             }
-            else{
+          else{
               printf("Command not found: %s\n",args[0]);
-            }
+          }
             free(cmd_path);
           }
           else{
