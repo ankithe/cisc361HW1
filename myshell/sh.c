@@ -11,6 +11,7 @@
 #include <signal.h>
 #include "sh.h"
 #include <glob.h>
+#include <wordexp.h>
 
 extern char **environ;
 
@@ -297,39 +298,80 @@ int sh(int argc, char **argv, char **envp)
         printPid();
       }
 
-      //else for exec 
-      else
-      {
-        char *cmd_path = which(args[0],pathlist);
-        int size = strlen(cmd_path);
-        cmd_path[size -1] = '\0';
-        char** tmpArgs = malloc((argsct+1)* sizeof(char*));
+      //wildcards
+      else if(strchr(arg,'*') != NULL || strchr(arg,'?') != NULL){
+        wordexp_t x;
+        char **wc;
+        int loc;
+        wordexp(arg, &x, 0);
+        wc = x.we_wordv;
+        for(loc = argsct; loc< x.we_wordc; loc++){
+          printf("%s\n", wc[loc]);
+        }
+        wordfree(&x);
+      }
 
-        for(int i = 0; i<= argsct; i++){
-          if(i == argsct){
-            tmpArgs[i] = '\0';
+      //else for exec 
+   else{
+          char *cmd_path;
+          if(strchr(arg,'.') != NULL || strchr(arg,'/') != NULL){
+            cmd_path = (char *) malloc((strlen(args[0])+1)*sizeof(char));
+            strcpy(cmd_path,args[0]);
+            pid_t pid;
+            pid = fork();
+            if(pid == 0){
+              execve(args[0],&args[0], NULL);
+              printf("exited\n");
+              arrayFree(args);
+              free(args);
+              free(pathlist->element);
+              freeList(pathlist);
+              free(arg);
+              free(prompt);
+              free(cmd_path);
+              free(pwd);
+              free(owd);
+              exit(pid);
+            }
+            else if(pid != 0){
+              waitpid(pid,NULL,0);
+            }
+            else{
+              printf("Command not found: %s\n",args[0]);
+            }
+            free(cmd_path);
           }
           else{
-            tmpArgs[i] = args[i];
-          }
-        }
+            cmd_path = which(args[0],pathlist);
+            cmd_path[strlen(cmd_path)-1] = '\0';
+            if(access(cmd_path,X_OK) == 0){
+              pid_t pid;
+              pid = fork();
+              if(pid == 0){
+                execve(cmd_path,args, envp);
+                printf("exited\n");
+                arrayFree(args);
+                free(args);
+                free(pathlist->element);
+                freeList(pathlist);
+                free(arg);
+                free(prompt);
+                free(cmd_path);
+                free(pwd);
+                free(owd);
+                exit(pid);
+              }
+              else if(pid != 0){
+                waitpid(pid,NULL,0);
+              }
+              free(cmd_path);
 
-        if(cmd_path == NULL){
-          printf("%s: command not found\n", args[0]);
-        }
-        else if(access(cmd_path, X_OK) == 0){
-          printf("Executing %s:\n", args[0]);
-          pid_t pid = fork();
-          if(pid ==0){//child
-            execve(cmd_path, tmpArgs, envp);
-          }else{
-            waitpid(pid,NULL,0);
           }
-        }
-        else{
-          printf("cannot access file \n");
-        }
-        free(cmd_path);
+          else{
+                printf("Command not found: %s\n",args[0]);
+          }
+
+          }
       }
 
       arrayFree(args);
