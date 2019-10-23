@@ -370,7 +370,7 @@ int sh(int argc, char **argv, char **envp)
           else{
                 printf("Command not found: %s\n",args[0]);
           }
-
+          free(cmd_path);
           }
       }
 
