@@ -15,6 +15,8 @@
 
 extern char **environ;
 
+//runs the shell 
+
 int sh(int argc, char **argv, char **envp)
 {
   char *prompt = calloc(PROMPTMAX, sizeof(char));
@@ -47,7 +49,6 @@ int sh(int argc, char **argv, char **envp)
     printf("[%s]%s", pwd, prompt);
     /* get command line and process */
     char *arg = calloc(MAX_CANON, sizeof(char));
-    //arg = fgets(arg, BUFSIZ, stdin);
     if (fgets(arg, BUFSIZ, stdin) == NULL)
     { //cntrl D
       printf("^D\n");
@@ -269,7 +270,7 @@ int sh(int argc, char **argv, char **envp)
           }
           else if (argsct == 2)
           {
-            sprintf(prompt, " %s ", args[1]);
+            sprintf(prompt, "  %s ", args[1]);
           }
         }
       }
@@ -385,6 +386,8 @@ int sh(int argc, char **argv, char **envp)
   return 0;
 } /* sh() */
 
+
+// same as the tcsh one 
 char *which(char *command, struct pathelement *pathlist)
 {
   char *cmd = malloc(64);
@@ -408,6 +411,8 @@ char *which(char *command, struct pathelement *pathlist)
   }
   return cmd;
 }
+
+//reports all known instances of command in path
 char *where(char *command, struct pathelement *pathlist)
 {
   char *cmd = calloc(64, sizeof(char *));
@@ -451,6 +456,7 @@ char *where(char *command, struct pathelement *pathlist)
   return cmd;
 }
 
+//lists all the filed/directories in the cd 
 void ls(char *directory)
 {
   DIR *mydirectory;
@@ -472,6 +478,8 @@ void ls(char *directory)
   free(mydirectory);
 }
 
+//prints the whole enviornment with no arguments. prints the value associated with the argument. 
+//Will be an error if you have more than one argument
 void printenv(int argsct, char **envp, char **args)
 {
   if (argsct == 1)
@@ -493,11 +501,13 @@ void printenv(int argsct, char **envp, char **args)
   }
 }
 
+//prints the process ID
 void printPid()
 {
   printf("%d\n", getpid());
 }
 
+//changes the current directory. no arguments takes you to home directory
 int cd(char *directory)
 {
   if (chdir(directory) < 0)
@@ -508,6 +518,7 @@ int cd(char *directory)
   return 1;
 }
 
+//frees a list that you pass in
 void freeList(struct pathelement *first)
 {
   struct pathelement *tmp = NULL;
@@ -519,6 +530,7 @@ void freeList(struct pathelement *first)
   }
 }
 
+//frees aa double array
 void arrayFree(char **array)
 {
   int i = 0;
@@ -529,6 +541,7 @@ void arrayFree(char **array)
   }
 }
 
+//converts a given char array into a string
 char **stringToArray(char *input)
 {
   char buf[BUFSIZ];
